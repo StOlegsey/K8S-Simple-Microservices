@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bills-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bills-app
+  template:
+    metadata:
+      labels:
+        app: bills-app
+    spec:
+      containers:
+      - name: bills-user-api
+        image: stolegsey/bills_user_api
+        env:
+          - name: TicketGenURL
+            value: "http://localhost:9090/ticket_generator"
+        ports:
+        - containerPort: 8080
+        
+      - name: ticket-generator
+        image: stolegsey/ticket_generator
+        ports:
+        - containerPort: 9090
